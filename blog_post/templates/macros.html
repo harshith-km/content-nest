@@ -1,0 +1,8 @@
+{% macro input_group(label, id, type='text') %} 
+    <div class="input_group"> 
+        <label for="{{ id }}">{{ label }}</label> 
+        <input type="{{ type }}" id="{{ id }}" name="{{ id }}" > 
+    </div>
+ {% endmacro %}
+
+ 

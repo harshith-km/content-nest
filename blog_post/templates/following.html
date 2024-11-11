@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="../static/css/style.css">
+<style>
+    .followings{
+        display: flex;
+        flex-direction: column;
+        row-gap: 15px;
+    }
+    .user_info{
+        background-color: #eaeaf9;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+        border-radius: 25px;
+        align-items: center;
+    }
+    p{  
+        font-size: 1.2rem;
+        color: var(--secondary-text-color);
+    }
+    .user_img_and_name a{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .user_img_and_name{
+        display: flex;
+        column-gap: 20px;
+    }
+    .user_img_and_name .profile_img{
+        width: 70px;
+        height: 70px;
+        background-color: var(--accent-color);
+    }
+    form button{
+        margin: 0;
+        padding: 5px 25px;
+    }
+   
+
+</style>
+<div class="full_page">
+    <div class="content_area">
+        {% include 'flash_msg.html' %}
+
+        <u><h1>Your are following...</h1></u>
+        <div class="followings">
+            {% if users %}
+                {% for user in users %}
+                    <div class="user_info">
+                        <div class="user_img_and_name">
+                            <img class="profile_img" src="../static/img/profil_img/{{ user.user_fname[0].lower() }}.png" alt="">
+                            <a href="{{ url_for('view_user', user_id=user.id) }}" class="">
+                                <p>{{ user.user_fname+' '+user.user_lname }}</p>
+                                <p>{{ user.user_email }}</p>
+                            </a>
+                        </div>
+                        
+                        <form action="/unfollow" method="post">
+                            <input type="hidden" name="follows_id" value="{{ user.id }}">
+                            <input type="hidden" name="user_name" value="{{ user.user_fname+' '+user.user_lname }}">
+                            <input type="hidden" name="from_addr" value="following">
+                            <button type="submit">Unfollow</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h1>you are not following anyone</h1>
+            {% endif %}
+        </div>
+    </div>  
+
+    {% include '_side_bar.html' %}
+
+</div>
+
+
+
+
+{% endblock %}

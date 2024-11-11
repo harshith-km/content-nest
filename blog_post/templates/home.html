@@ -1,0 +1,180 @@
+{% extends 'base.html'%}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="../static/css/style.css">
+<style>
+    .searhbar_and_suggestions,.blog,.save_share,.row_title,.row_content{
+        display: flex;
+        justify-content: space-between;
+    }
+    .searhbar_and_suggestions{
+        flex-direction: column;
+        align-items: center;
+    }
+    .logo{
+        width: 50%;
+        background-color: transparent;
+        margin: 15px 0px 30px;
+    }
+    .searchbar{
+        width: 70%;
+        padding: 7px 20px;
+        font-size: 1.5rem;
+        border-radius: 15px;
+        border: none;
+        margin: 0px 0px 40px 0px;
+    }
+    .main_row{
+        padding: 20px;
+        width: 100%;
+    }
+    .blog{
+        flex-direction: column;
+        width: 22%;
+        padding: 20px;
+        row-gap: 15px;
+        background-color: var(--secondary-bg);
+        margin: 20px 0px 0px 0px;
+        border-radius: 15px;
+    }
+    .row_title a{
+        color: var(--text-color);
+    }
+    .blog a{
+        color: var(--secondary-text-color);
+    }
+    .icon{
+        width: 40px;
+        height: 40px;
+    }
+    .save_share{
+        width:100%;
+        justify-content: space-between;
+        margin-top: 25px;
+    }
+    hr{
+        height: 4px;
+        width: 98%;
+        margin-left: 1%;
+        color: white;
+    }
+    .profile_img{
+        background-color: #bb86fc;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 2px solid white;
+        margin-bottom: 5px;
+    }
+    .follow a{
+        
+    }
+    .user_info{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .content_area{
+        position: relative;
+    }
+    .flash-message{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 15px;
+    }
+</style>
+
+
+<div class="full_page">
+    <div class="content_area">
+        <script src="../static/js/close_flash_message.js"></script>
+        {% include 'flash_msg.html' %}
+
+        <div class="searhbar_and_suggestions">
+            <img class="logo" src="../static/img/logo_content_nest.png" alt="">
+            <input class="searchbar" type="text" placeholder="Search for Blogs, Authors & Category etc">
+        </div>
+        <hr>
+        <div class="main_row">
+            <div class="row_title">
+                <h2>Suggestions</h2>
+                <a href="suggest_more"><h2>More></h2></a>
+            </div>
+            <div class="row_content">
+                {% if blogs %}
+                    {% for blog in blogs %}
+                        <div class="blog">
+                            <a href="{{ url_for('view_blog', blog_id=blog.blog_id) }}">
+                                <h2>{{ blog.blog_title }}</h2>
+                                <p>{{ blog.author_name }}</p>  
+                                <p>{{ blog.date_posted }}</p> 
+                            </a>
+                            <div class="save_share">
+                                {% if blog.blog_id in saved_blog_ids %}
+                                    <a href="{{ url_for('delete_saved_blog', blog_id=blog.blog_id, from_addr='home') }}">
+                                        <img class="icon" src="../static/img/delete.png" alt="">
+                                    </a>
+                                {% else %}
+                                    <a href="{{ url_for('save_blog', blog_id=blog.blog_id, from_addr='home') }}">
+                                        <img class="icon" src="{{ url_for('static', filename='img/saved.png') }}" alt="">
+                                    </a>
+                                {% endif %}
+                                <a href="/share_blog/{{ blog.blog_id }}">
+                                    <img class="icon" src="../static/img/share.png" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            
+        </div>
+
+        <hr>
+        <div class="main_row">
+            <div class="row_title">
+                <h2>Users</h2>
+                <a href="/all_users"><h2>More></h2></a>
+            </div>
+            <div class="row_content">
+                {% if users %}
+                    {% for user in users %}
+                        {% if user.id != session['user_id'] %}
+                            <div class="blog">
+                                <a href="{{ url_for('view_user', user_id=user.id) }}" class="user_info">
+                                    <img class="profile_img" src="../static/img/profil_img/{{ user.user_fname[0].lower() }}.png" alt="">
+                                    <p>{{ user.user_fname + ' ' + user.user_lname }}</p>  
+                                    <small>{{ user.user_email }}</small> 
+                                </a>
+                                <div class="follow">
+                                    {% if user.id in following_ids %}
+                                        <form action="/unfollow" method="post">
+                                            <input type="hidden" name="follows_id" value="{{ user.id }}">
+                                            <input type="hidden" name="user_name" value="{{ user.user_fname+' '+user.user_lname }}">
+                                            <input type="hidden" name="from_addr" value="home">
+                                            <button type="submit">Unfollow</button>
+                                        </form>
+                                    {% else %}
+                                        <form action="{{ url_for('follow', user_id=user.id, user_name=user.user_fname + ' ' + user.user_lname,from_addr='home') }}" method="post">
+                                            <button type="submit">Follow</button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+            
+        </div>
+        <hr>
+    
+
+    </div>
+    {% include '_side_bar.html' %}
+</div>
+{% endblock %}

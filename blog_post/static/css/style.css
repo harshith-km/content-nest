@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+:root {
+    --primary-bg: blueviolet;        
+    --secondary-bg: #eaeaf9;       
+
+    --accent-color: #bb86fc;      
+    --link-highlight: #FF6F61;    
+    
+    --text-color: #FFFFFF;      
+    --secondary-text-color: #2F2F2F; 
+  
+    --scrollbar-track: #D3B1F4;    
+    --scrollbar-thumb: #8400ff;    
+    --scrollbar-thumb-hover: rgba(155, 50, 253, 0.39); 
+    --flash-bg: rgba(197, 145, 245, 0.823); 
+    --flash-message-bg: rgba(0, 0, 0, 0.485); 
+}
+
+.full_page {
+    color: var(--text-color);
+    display: flex;
+    gap: 5px;
+    padding: 5px;
+    width: 100vw;
+    height: 100vh;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.content_area {
+    position: relative;
+    padding: 40px 20px 20px 20px;
+    width: 75%;
+    height: 100%;
+    background-color: var(--primary-bg);
+    border-radius: 10px;
+}
+
+.content_area h1 {
+    margin-bottom: 20px;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Login and Register Forms */
+.register_form, .login_form {
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    background-color: var(--secondary-bg);
+    color: var(--secondary-text-color);
+}
+
+.form_heading {
+    font-size: 2rem;
+    margin: 0px 0px 20px 0px;
+    line-height: 50px;
+}
+
+.register_form span {
+    margin-bottom: 20px;
+}
+
+.input_group {
+    background-color: ;
+    color: var(--secondary-text-color) ;
+    font-size: 1.5rem;
+    width: 450px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.input_group input {
+    font-size: 1.5rem;
+    width: 320px;
+    border: none;
+    padding: 2px 10px;
+    border-radius: 10px; 
+}
+
+button {
+    margin: 10px 0px 0px 0px;
+    width: 100%;
+    padding: 5px;
+    font-size: 1.5rem;
+    border-radius: 25px;
+    border: none;
+    background-color: var(--accent-color) ;
+    color: var(--secondary-text-color);
+    cursor: pointer;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Scrollbar CSS */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track); /* Color of the track */
+}
+
+::-webkit-scrollbar-thumb {
+    width: 8px;
+    background: var(--scrollbar-thumb); /* Color of the handle */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover); /* Color of the handle when hovered */
+}
+
+/* Flash Message Popup */
+.flash-message {
+    background-color: var(--flash-message-bg);
+    border-radius: 15px;
+    padding: 5px 10px;
+    color: var(--text-color);
+    font-size: larger;
+    width: fit-content;
+
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 15px;
+}
+

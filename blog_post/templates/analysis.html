@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Analysis{% endblock %}
+
+{% block content %}
+    
+<link rel="stylesheet" href="../static/css/style.css">
+<style>
+
+</style>
+<script src="../static/js/close_flash_message.js"></script>
+<style>
+    .x{
+        height: 80%;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+    }
+    .analysis_div{
+        display: flex;
+        width: 70%;
+        justify-content: center;
+        column-gap: 20px;
+
+    }
+    .analysis_data{
+        padding: 20px;
+        background-color: var(--secondary-bg);
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .analysis_data label{
+        font-size: 2rem;
+        color: var(--secondary-text-color);
+    }
+    .analysis_data span{
+        font-size: 2.5rem;
+        color: var(--secondary-text-color);
+    }
+</style>
+<div class="full_page">
+    <div class="content_area">
+        <u><h1>Analytics data</h1></u>
+        {% include 'flash_msg.html' %}
+        <div class="x">
+            <div class="analysis_div">
+                <div class="analysis_data">
+                    <label for="">Followers</label>
+                    <span>{{ analysis['followers'] }}</span>
+                </div>
+                <div class="analysis_data">
+                    <label for="">Following</label>
+                    <span>{{ analysis['following'] }}</span>
+                </div>
+            </div>
+            <div class="analysis_div">
+                <div class="analysis_data">
+                    <label for="">Your Blogs</label>
+                    <span>{{ analysis['your_blogs'] }}</span>
+                </div>
+                <div class="analysis_data">
+                    <label for="">Saved Blogs</label>
+                    <span>{{ analysis['saved_blogs'] }}</span>
+                </div>
+
+            </div>
+        </div>
+        
+
+            
+
+        
+
+    </div>
+
+    {% include '_side_bar.html' %}
+
+</div>
+
+
+
+
+{% endblock %}
