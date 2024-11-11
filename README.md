@@ -15,7 +15,7 @@ this project include functionalities of
 - follow users
 
 
-### *project output*
+## *project output*
 
 ***login page***
 ![Screenshot From 2024-11-11 21-39-02](https://github.com/user-attachments/assets/2796b4b6-1add-4de3-8af3-4e9a0751b2c9)
