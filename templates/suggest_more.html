@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Suggestions{% endblock %}
+{% block content %}
+    
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <style>
+        .content_area{
+            padding: 20px;
+            overflow: auto;
+        }
+        .blog{
+            padding: 20px;
+            background-color: var(--secondary-bg);
+            
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+        h1, p{
+            color: var(--secondary-text-color);
+        }
+        .icon{
+            width: 40px;
+            height: 40px;
+        }
+        .like_comment_share{
+            width: 50%;
+            display: flex;
+            justify-content: space-evenly;
+            padding: 10px 0px;
+            margin-top: 20px;
+        }
+        .like_comment_share a{
+            width: 10%;
+        }
+        hr{
+            width: 80%;
+            text-align: center;
+        }
+        .pop_up{
+            position: absolute;
+            top: 50%;
+            right: 50%;
+            padding: 20px;
+            background-color:aquamarine;
+            border-radius: 15px;
+            color: black;
+            border: none;
+            text-align: center;
+        }
+        .pop_up button{
+            width: 80%;
+            cursor: pointer;
+        }
+    </style>
+    <script src="{{ url_for('static', filename='js/close_flash_message.js') }}"></script>
+    
+    <div class="full_page">
+        <div class="content_area">
+            {% include 'flash_msg.html' %}
+
+            {% if blogs %}
+                {% for blog in blogs %}
+                    <div class="blog">
+                        <a href="{{ url_for('view_blog', blog_id=blog.blog_id) }}">
+                            <h1>{{ blog.blog_title }}</h1> <!-- Accessing the blog object inside saved_blog -->
+                            <p>Posted on: {{ blog.author_name }} | Posted on: {{ blog.date_posted.strftime('%d-%m-%Y %I:%M %p') }}</p>
+                        </a>
+                        <div class="like_comment_share">
+                            <a href="{{ url_for('like_blog', blog_id=blog.blog_id, from_addr='suggest_more') }}">
+                                <img class="icon" src="../static/img/like.png" alt="">
+                            </a>
+
+                            {% if blog.blog_id in saved_blog_ids %}
+                                <a href="{{ url_for('delete_saved_blog', blog_id=blog.blog_id, from_addr='suggest_more') }}">
+                                    <img class="icon" src="../static/img/delete.png" alt="">
+                                </a>
+                            {% else %}
+                                <a href="{{ url_for('save_blog', blog_id=blog.blog_id, from_addr='suggest_more') }}">
+                                    <img class="icon" src="{{ url_for('static', filename='img/saved.png') }}" alt="">
+                                </a>
+                            {% endif %}
+
+                            <a href="/share_blog/{{ blog.blog_id }}">
+                                <img class="icon" src="../static/img/share.png" alt="">
+                            </a>
+                            
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h2>You have no Suggested Blogs</h2>
+            {% endif %}
+        </div>
+        
+        {% include '_side_bar.html' %}
+    </div>
+
+{% endblock %}

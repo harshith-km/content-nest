@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+
+
+<link rel="stylesheet" href="../static/css/style.css">
+ <style>
+    form{
+        background-color: var(--primary-bg);
+    }
+    .user_chat{
+        background-color: var(--secondary-bg);
+        display: flex;
+        align-items: center;
+        column-gap: 20px;
+        padding: 15px;
+        color: var(--secondary-text-color);
+    }
+    .profile_info{
+        text-align: left;
+    }
+    .user_chat img{
+        width: 70px;
+        height: 70px;
+        background-color: var(--accent-color);
+    }
+    h3, small{
+        margin: 0;
+        padding: 0;
+    }
+
+ </style>
+
+<div class="full_page">
+    <div class="content_area">
+        <u><h1>Chat with Bloggers</h1></u>
+        {% if users %}
+            {% for user in users %}
+                <form action="/chat_with_user" method="POST">
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <input type="hidden" name="user_name" value="{{ user.user_fname+' '+user.user_lname }}">
+                    
+                    <button type="submit" class="user_chat">
+                            <img class="profile_img" src="../static/img/profil_img/{{ user.user_fname[0].lower() }}.png" alt="">
+                            <div class="profile_info">
+                                <h3>{{ user.user_fname }} {{ user.user_lname }} </h3>
+                                <small>({{ user.user_email }})</small>
+                            </div>
+                    </button>
+
+                </form>
+            {% endfor %}
+        {% else %}
+            <p>No chat users found.</p>
+        {% endif %}
+
+    </div>
+
+    {% include '_side_bar.html' %}
+
+</div>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="../static/css/style.css">
+<style>
+    .following{
+        display: flex;
+    }
+    .user_info{
+        background-color: var(--secondary-bg);
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+        border-radius: 25px;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    p{  
+        font-size: 1.2rem;
+        color: var(--secondary-text-color);
+    }
+    .user_img_and_name{
+        display: flex;
+        column-gap: 20px;
+    }
+    .user_info button{
+        margin: 0;
+        width: fit-content;
+        padding: 5px 25px;
+    }
+    .user_img_and_name img{
+        width: 70px;
+        height: 70px;
+        background-color: var(--accent-color);
+    }
+    .user_img_and_name a{
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+<div class="full_page">
+    <div class="content_area">
+        {% include 'flash_msg.html' %}
+
+         
+        <u><h1>Your are followed by...</h1></u>
+        <div class="followings">
+            {% if users %}
+                {% for user in users %}
+                    <div class="user_info">
+                        <div class="user_img_and_name">
+                            <img class="profile_img" src="../static/img/profil_img/{{ user.user_fname[0].lower() }}.png" alt="">
+                            <a href="{{ url_for('view_user', user_id=user.id) }}" class="">
+                                <p>{{ user.user_fname+' '+user.user_lname }}</p>
+                                <p>{{ user.user_email }}</p>
+                            </a>
+                        </div>
+                        {% if user.id in following_ids %}
+                            <button >following</button>
+                        {% else %}
+                            <form action="/follow/{{ user.id }}/{{ user.user_fname+' '+user.user_lname }}/followed_by" method="POST">
+                                <button type="submit">Follow back</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h1>you are not following anyone</h1>
+            {% endif %}
+        </div>
+    </div>  
+
+    {% include '_side_bar.html' %}
+
+</div>
+
+
+
+
+{% endblock %}

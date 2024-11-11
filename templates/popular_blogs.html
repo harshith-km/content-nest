@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Popular Blogs</title>
+</head>
+<body>
+    {% include 'flash_msg.html' %}
+    <h1>Popular Blogs</h1>
+    {% for blog in popular_blogs %}
+        <h1>{{ blog.blog_id }}</h1>
+    {% endfor %}
+
+
+    {% if blogs %}
+        <ul>
+        {% for blog in blogs %}
+            <li>
+                <h2>{{ blog.blog_title }}</h2>
+                <p>{{ blog.blog_content }}</p>
+                <small>By {{ blog.author_name }} on {{ blog.date_posted }}</small>
+                <p>Likes: {{ blog.likes | length }}</p>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No popular blogs found.</p>
+    {% endif %}
+</body>
+</html>

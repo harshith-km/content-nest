@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write-Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            
+            border: none;
+        }
+        a{
+            text-decoration: none;
+        }
+        .flash-message{
+            background-color: rgba(0, 0, 0, 0.485);
+            border-radius: 15px;
+            padding: 5px 10px;
+            color: white;
+            font-size:larger;
+            position:absolute;
+            left:30%;
+            margin-top: 5px;
+        }
+        .full_page{
+            padding: 5px;
+            color: white;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            gap: 5px;
+            overflow: hidden;
+        }
+        .editor_form{
+            background-color: blueviolet;
+            height: 100%;
+            border-radius: 10px;
+            height: 100%;
+            width: 75%;
+            text-align: center;
+            overflow: hidden;
+            padding: 40px 20px 20px 20px;
+        }
+        .editor_form h1{
+            margin-bottom: 20px;
+            text-align: start;
+        }
+        .editor_form input{
+            border-radius: 15px;
+            width: 100%;
+            padding: 5px 20px;
+            font-size: 1.3rem;
+            border: none;
+            margin: 0px 0px 10px 0px;
+        }
+        input:focus {
+            outline: none;
+            box-shadow: none;
+        }
+        #toolbar-container{
+            border-radius: 15px;
+            overflow: visible;
+            height: 50px;
+            background-color: whitesmoke;
+            margin: 0px 0px 10px 0px;
+        }
+        #editor{
+            border-radius: 15px;
+            overflow: auto;
+            height: 82%;
+            background-color:#eaeaf9 ;
+            margin: 0px 0px 10px 0px;
+            overflow: auto;
+            font-size: 1rem;
+            color: #2F2F2F;
+        }
+        .editor_form button{
+            background-color: #eaeaf9;
+            border-radius: 15px;
+            width: 80%;
+            font-size: 1.3rem;
+            padding: 5px;
+            
+        }
+    </style>
+</head>
+<body>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+
+
+    <div class="full_page">
+        <form class="editor_form"  action="write_blog" method="POST">
+            
+            <script src="../static/js/close_flash_message.js"></script>
+            
+            {% include 'flash_msg.html' %}
+            <u><h1>Your Published Blogs</h1></u>
+            <input type="text" name="title" placeholder="Title of your blog" required>
+            
+            <div id="toolbar-container">
+                <span class="ql-formats">
+                    <select class="ql-font"></select>
+                    <select class="ql-size"></select>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-bold"></button>
+                    <button class="ql-italic"></button>
+                    <button class="ql-underline"></button>
+                    <button class="ql-strike"></button>
+                </span>
+                <span class="ql-formats">
+                    <select class="ql-color"></select>
+                    <select class="ql-background"></select>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-script" value="sub"></button>
+                    <button class="ql-script" value="super"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-header" value="1"></button>
+                    <button class="ql-header" value="2"></button>
+                    <button class="ql-header" value="3"></button>
+                    <button class="ql-blockquote"></button>
+                    <button class="ql-code-block"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-list" value="ordered"></button>
+                    <button class="ql-list" value="bullet"></button>
+                    <button class="ql-indent" value="-1"></button>
+                    <button class="ql-indent" value="+1"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-direction" value="rtl"></button>
+                    <select class="ql-align"></select>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-link"></button>
+                    <button class="ql-image"></button>
+                    <button class="ql-formula"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-clean"></button>
+                </span>
+            </div>
+                
+            <div id="editor">
+            </div>
+        
+            <input type="hidden" name="content" id="content">
+            <button type="submit">Publish Blog-Post</button>
+        </form>
+        
+        {% include "_side_bar.html" %}
+    </div>
+        
+    <script>
+        const quill = new Quill('#editor', {
+        modules: {
+            syntax: true,
+            toolbar: '#toolbar-container',
+        },
+        placeholder: 'Compose an epic...',
+        theme: 'snow',
+        });
+        
+        document.querySelector('form').onsubmit = function() {
+            document.querySelector('#content').value = quill.root.innerHTML;
+        };
+    </script>
+</body>
+</html>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!-- <body>
+        <div class="full_page">
+            <div class="content_area">
+                <form action="/test_result" method="POST">
+                    <div id="editor"></div>
+                    <input type="hidden" name="editor" id="editor_content">
+                    <button type="submit">Publish</button>
+                </form>
+                <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+                <script>
+                    const quill = new Quill('#editor', { theme: 'snow' });
+                    document.querySelector('form').onsubmit = function() {
+                        document.querySelector('#editor_content').value = quill.root.innerHTML;
+                    };
+                </script>
+    
+            </div>
+            {% include '_side_bar.html' %}
+        </div>
+    </body>
+    </html> -->
